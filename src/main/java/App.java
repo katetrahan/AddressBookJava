@@ -13,6 +13,8 @@ public class App {
     public static void main(String[] args){
         staticFileLocation("/public");
 
+
+        //get: show index
         get("/", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
 //            ArrayList addressBooks = AddressBook.getAll();
@@ -20,7 +22,7 @@ public class App {
             return new ModelAndView(model, "index.hbs");
         }, new HandlebarsTemplateEngine());
 
-
+        //get: show name of inputted person
         get("/addressBook/display", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
             ArrayList addressBooks = AddressBook.getAll();
@@ -46,6 +48,8 @@ public class App {
             return new ModelAndView(model, "book.hbs");
         }, new HandlebarsTemplateEngine());
 
+
+        // get: show more address details
         get("/addressBook/:addressId", (req, res) -> {
             Map<String, Object> model = new HashMap<>();
             int idOfPostToFind = Integer.parseInt(req.params("addressId"));
@@ -54,6 +58,8 @@ public class App {
             return new ModelAndView(model, "details.hbs");
         }, new HandlebarsTemplateEngine());
 
+
+        // get: show edit form
         get("/addressBook/:addressId/edit", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
             int idOfPostToEdit = Integer.parseInt(request.params("addressId"));
@@ -62,6 +68,8 @@ public class App {
             return new ModelAndView(model, "edit.hbs");
         }, new HandlebarsTemplateEngine());
 
+
+         //post: update an address
         post("/addressBook/:addressId/edit", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
             String street = request.queryParams("street");
@@ -80,6 +88,7 @@ public class App {
             return new ModelAndView(model, "details.hbs");
         }, new HandlebarsTemplateEngine());
 
+        // post: delete one post
         get("/addressBook/:addressId/delete",(request, response) -> {
             Map<String, Object> model = new HashMap<>();
             int idOfPostToDelete = Integer.parseInt(request.params("addressId"));

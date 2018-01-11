@@ -44,7 +44,7 @@ public class AddressBook {
         return this.addressId;
     }
 
-    public static ArrayList getAll() {
+    public static ArrayList<AddressBook> getAll() {
         return instances;
     }
 

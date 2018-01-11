@@ -24,7 +24,7 @@ public class App {
         get("/addressBook/display", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
             ArrayList addressBooks = AddressBook.getAll();
-            model.put("addressBook", addressBooks);
+            model.put("addressBooks", addressBooks);
             return new ModelAndView(model, "book.hbs");
         }, new HandlebarsTemplateEngine());
 
@@ -85,7 +85,9 @@ public class App {
             int idOfPostToDelete = Integer.parseInt(request.params("addressId"));
             AddressBook deleteAddressBook = AddressBook.findById(idOfPostToDelete);
             deleteAddressBook.deleteEntry();
-            return new ModelAndView(model, "details.hbs");
+            ArrayList addressBooks = AddressBook.getAll();
+            model.put("addressBooks", addressBooks);
+            return new ModelAndView(model, "book.hbs");
         }, new HandlebarsTemplateEngine());
 
 

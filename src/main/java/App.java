@@ -1,8 +1,11 @@
+import models.Address;
+import models.AddressBook;
 import spark.ModelAndView;
 import spark.template.handlebars.HandlebarsTemplateEngine;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
 
 import static spark.Spark.*;
 
@@ -12,15 +15,84 @@ public class App {
 
         get("/", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
+//            ArrayList addressBooks = AddressBook.getAll();
+//            model.put("addressBook", addressBooks);
             return new ModelAndView(model, "index.hbs");
         }, new HandlebarsTemplateEngine());
 
-        //get: show new post form
-        get("/addressBook/new", (req, res) -> {
+
+        get("/addressBook/display", (request, response) -> {
             Map<String, Object> model = new HashMap<>();
+            ArrayList addressBooks = AddressBook.getAll();
+            model.put("addressBook", addressBooks);
             return new ModelAndView(model, "book.hbs");
         }, new HandlebarsTemplateEngine());
 
-    }
+        //get: show new post form
+        post("/addressBook/new", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            String street = req.queryParams("street");
+            String city = req.queryParams("city");
+            String state = req.queryParams("state");
+            String country = req.queryParams("country");
+            String zip = req.queryParams("zip");
+            Address newAddress = new Address(street, city, state, country, zip);
+            String first = req.queryParams("first");
+            String last = req.queryParams("last");
+            String number = req.queryParams("phone");
+            AddressBook newAddressBook = new AddressBook(first, last, newAddress, number);
+            ArrayList addressBooks = AddressBook.getAll();
+            model.put("addressBooks", addressBooks);
+            return new ModelAndView(model, "book.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        get("/addressBook/:addressId", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfPostToFind = Integer.parseInt(req.params("addressId"));
+            AddressBook foundEntry = AddressBook.findById(idOfPostToFind); //use it to find post
+            model.put("foundEntry", foundEntry); //add it to model for template to display
+            return new ModelAndView(model, "details.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        get("/addressBook/:addressId/edit", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfPostToEdit = Integer.parseInt(request.params("addressId"));
+            AddressBook editAddressBook = AddressBook.findById(idOfPostToEdit);
+            model.put("editAddressBook", editAddressBook);
+            return new ModelAndView(model, "edit.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        post("/addressBook/:addressId/edit", (request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            String street = request.queryParams("street");
+            String city = request.queryParams("city");
+            String state = request.queryParams("state");
+            String country = request.queryParams("country");
+            String zip = request.queryParams("zip");
+            Address newAddress = new Address(street, city, state, country, zip);
+            String first = request.queryParams("first");
+            String last = request.queryParams("last");
+            String number = request.queryParams("phone");
+            int idOfPostToEdit = Integer.parseInt(request.params("addressId"));
+            AddressBook foundEntry = AddressBook.findById(idOfPostToEdit);
+            foundEntry.edit(first, last, newAddress, number);
+            model.put("foundEntry", foundEntry);
+            return new ModelAndView(model, "details.hbs");
+        }, new HandlebarsTemplateEngine());
+
+        get("/addressBook/:addressId/delete",(request, response) -> {
+            Map<String, Object> model = new HashMap<>();
+            int idOfPostToDelete = Integer.parseInt(request.params("addressId"));
+            AddressBook deleteAddressBook = AddressBook.findById(idOfPostToDelete);
+            deleteAddressBook.deleteEntry();
+            return new ModelAndView(model, "details.hbs");
+        }, new HandlebarsTemplateEngine());
+
+
+
+        }
+
+
+
 
 }

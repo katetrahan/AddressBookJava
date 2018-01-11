@@ -6,7 +6,7 @@
 {{#partial "content"}}
 
     <h1>Enter a new address</h1>
-    <form action='/new'>
+    <form action='/addressBook/new' method="post">
         <div class="form-group">
             <label for="first">First name</label>
             <input id="first" name="first" class="form-control" type="text">
@@ -24,8 +24,12 @@
             <input id="city" name="city" class="form-control" type="text">
         </div>
         <div class="form-group">
-            <label for="state">First name</label>
+            <label for="state">State</label>
             <input id="state" name="state" class="form-control" type="text">
+        </div>
+        <div class="form-group">
+            <label for="country">Country</label>
+            <input id="country" name="country" class="form-control" type="text">
         </div>
         <div class="form-group">
             <label for="zip">Postal code</label>
@@ -37,6 +41,7 @@
         </div>
         <button type="submit" class="btn">Go!</button>
     </form>
+    <a href="/addressBook/display">See all</a>
     <!--form.hbs.-->
 {{/partial}}
 

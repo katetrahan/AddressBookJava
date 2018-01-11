@@ -1,18 +1,25 @@
 package models;
 
 
+import java.util.ArrayList;
+
 public class Address {
     private String street;
     private String city;
     private String state;
     private String country;
     private String zip;
+    private int addressId;
+//    private static ArrayList<Address> instances;
+
     public Address(String street, String city, String state, String country, String zip) {
         this.street = street;
         this.city = city;
         this.state = state;
         this.country = country;
         this.zip = zip;
+//        instances.add(this);
+//        this.addressId = instances.size();
     }
 
 
@@ -35,4 +42,5 @@ public class Address {
     public String getZip() {
         return this.zip;
     }
+
 }

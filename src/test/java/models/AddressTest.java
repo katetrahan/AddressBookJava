@@ -12,4 +12,11 @@ public class AddressTest {
         assertEquals(true, address instanceof Address);
     }
 
+    @Test
+    public void address_getStreet_String() {
+        Address address = new Address("123 Sesame St", "New York", "New York", "USA", "10101");
+        assertEquals("123 Sesame St", address.getStreet());
+
+    }
+
 }

@@ -14,4 +14,20 @@ public class AddressBook {
         this.address = address;
         this.number = number;
     }
+
+    public String getFirst() {
+        return this.first;
+    }
+
+    public String getLast() {
+        return this.last;
+    }
+
+    public Address getAddress() {
+        return this.address;
+    }
+
+    public String getNumber() {
+        return this.number;
+    }
 }
